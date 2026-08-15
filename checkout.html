@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Оформлення замовлення — MotoParts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="header">
+  <div class="header__inner">
+    <a href="index.html" class="logo">MOTO<span>PARTS</span></a>
+    <div class="header__phone">Замовлення: <strong>+38 (0__) ___-__-__</strong></div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="checkout">
+    <div>
+      <h2 class="section-title">Дані для доставки</h2>
+      <form id="checkoutForm">
+        <div class="form-group">
+          <label for="name">Ім'я та прізвище</label>
+          <input type="text" id="name" required />
+        </div>
+        <div class="form-group">
+          <label for="phone">Телефон</label>
+          <input type="tel" id="phone" required placeholder="+380..." />
+        </div>
+        <div class="form-group">
+          <label for="city">Місто</label>
+          <input type="text" id="city" required />
+        </div>
+        <div class="form-group">
+          <label for="branch">Відділення Нової Пошти</label>
+          <input type="text" id="branch" required placeholder="Наприклад, відділення №5" />
+        </div>
+        <button type="submit" class="btn btn--primary btn--full" id="payBtn">Перейти до оплати</button>
+      </form>
+    </div>
+
+    <div class="order-summary">
+      <h3>Ваше замовлення</h3>
+      <div id="summaryItems"></div>
+      <div class="summary-total"><span>Разом</span><span id="summaryTotal">0 ₴</span></div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>© MotoParts. Оплата приймається через LiqPay — безпечно, картками Visa/Mastercard.</p>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script>
+  function renderSummary() {
+    const items = getCartWithDetails();
+    const wrap = document.getElementById("summaryItems");
+    const totalEl = document.getElementById("summaryTotal");
+
+    if (items.length === 0) {
+      wrap.innerHTML = "<p style='color:var(--steel)'>Корзина порожня.</p>";
+      document.getElementById("payBtn").classList.add("btn--disabled");
+      totalEl.textContent = "0 ₴";
+      return;
+    }
+
+    wrap.innerHTML = items.map((item) => `
+      <div class="summary-row">
+        <span>${item.name} × ${item.qty}</span>
+        <span>${new Intl.NumberFormat("uk-UA").format(item.price * item.qty)} ₴</span>
+      </div>
+    `).join("");
+
+    totalEl.textContent = new Intl.NumberFormat("uk-UA").format(getCartTotal()) + " ₴";
+  }
+
+  document.getElementById("checkoutForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const items = getCartWithDetails();
+    if (items.length === 0) return;
+
+    const order = {
+      name: document.getElementById("name").value,
+      phone: document.getElementById("phone").value,
+      city: document.getElementById("city").value,
+      branch: document.getElementById("branch").value,
+      items: items.map((i) => ({ id: i.id, name: i.name, qty: i.qty, price: i.price })),
+      total: getCartTotal()
+    };
+
+    const btn = document.getElementById("payBtn");
+    btn.textContent = "Зачекайте...";
+    btn.classList.add("btn--disabled");
+
+    try {
+      // Викликає серверну функцію /api/create-payment.js,
+      // яка формує підписане посилання на оплату LiqPay.
+      const res = await fetch("/api/create-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(order)
+      });
+
+      if (!res.ok) throw new Error("Payment init failed");
+      const data = await res.json();
+
+      // Зберігаємо замовлення локально до підтвердження оплати
+      localStorage.setItem("motoshop_last_order", JSON.stringify(order));
+
+      // Перенаправлення на сторінку оплати LiqPay
+      window.location.href = data.checkoutUrl;
+    } catch (err) {
+      alert("Оплата тимчасово недоступна. Зателефонуйте нам, будь ласка, щоб оформити замовлення вручну.");
+      btn.textContent = "Перейти до оплати";
+      btn.classList.remove("btn--disabled");
+    }
+  });
+
+  renderSummary();
+</script>
+</body>
+</html>

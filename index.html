@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MotoParts — мотозапчастини BMW, Honda, Kawasaki, KTM, Suzuki, Yamaha</title>
+<meta name="description" content="Магазин нових і б/у мотозапчастин. Доставка по Україні." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="header">
+  <div class="header__inner">
+    <a href="index.html" class="logo">MOTO<span>PARTS</span></a>
+    <div class="header__phone">Замовлення: <strong>+38 (0__) ___-__-__</strong></div>
+    <button class="cart-btn" id="openCart" aria-label="Відкрити корзину">
+      Корзина
+      <span class="cart-badge" data-cart-count>0</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero__inner">
+      <div class="hero__eyebrow">Нові та Б/В комплектуючі</div>
+      <h1>Запчастини, які<br>тримають дорогу</h1>
+      <p>Оригінальні та вживані мотозапчастини для BMW, Honda, Kawasaki, KTM, Suzuki, Yamaha. Перевірено перед відправкою.</p>
+      <a href="#catalog" class="btn btn--primary">Переглянути каталог</a>
+    </div>
+  </div>
+  <svg class="tread" viewBox="0 0 480 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g stroke="#3a3d42" stroke-width="2" fill="none">
+      <line x1="0" y1="0" x2="480" y2="150"/>
+      <line x1="0" y1="80" x2="480" y2="230"/>
+      <line x1="0" y1="160" x2="480" y2="310"/>
+      <line x1="0" y1="240" x2="480" y2="390"/>
+      <line x1="0" y1="320" x2="480" y2="470"/>
+      <line x1="0" y1="400" x2="480" y2="550"/>
+      <line x1="0" y1="480" x2="480" y2="630"/>
+    </g>
+  </svg>
+</section>
+
+<main class="container" id="catalog">
+  <div class="brand-tabs" id="brandTabs">
+    <button class="brand-tab active" data-brand="all">Всі бренди</button>
+  </div>
+
+  <h2 class="section-title">Каталог товарів</h2>
+  <div class="product-grid" id="productGrid"></div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>© MotoParts. Графік роботи: Пн–Пт 10:00–21:00, Сб 13:00–19:00. Замовлення через сайт — 24/7.</p>
+  </div>
+</footer>
+
+<!-- Cart Drawer -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="cartDrawer">
+  <div class="drawer__header">
+    <h2>Корзина</h2>
+    <button class="drawer__close" id="closeCart" aria-label="Закрити">×</button>
+  </div>
+  <div class="drawer__items" id="drawerItems"></div>
+  <div class="drawer__footer" id="drawerFooter"></div>
+</aside>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
