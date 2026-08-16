@@ -95,7 +95,7 @@ const PRODUCTS = [
     oldPrice: null,
     condition: "Оригінал",
     inStock: true,
-    image: "d82d11_9a9de911de6641588c720605240825b1~mv2.avif",
+    image: "imfges/d82d11_9a9de911de6641588c720605240825b1~mv2.avif",
     description: "Запчастина нова оригінал,не була у використані"
   },
 ];
