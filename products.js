@@ -84,7 +84,20 @@ const PRODUCTS = [
     inStock: true,
     image: "https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?w=600&q=80",
     description: "CDI блок, перевірений на стенді, повністю робочий."
-  }
+  },
+  {
+    id: "p007",
+    brand: "Honda",
+    model: "Honda CB600 07-13",
+    name: "Траверса",
+    sku: "53219-MFG-G40",
+    price: 19878,
+    oldPrice: null,
+    condition: "Оригінал",
+    inStock: true,
+    image: "d82d11_9a9de911de6641588c720605240825b1~mv2.avif",
+    description: "Запчастина нова оригінал,не була у використані"
+  },
 ];
 
 const BRANDS = ["Honda", "Kawasaki", "Suzuki", "Yamaha", "KTM", "BMW"];
